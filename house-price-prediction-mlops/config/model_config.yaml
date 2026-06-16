@@ -1,0 +1,7 @@
+model_registry:
+  stage: Production
+  local_model_path: artifacts/best_model.joblib
+
+serving:
+  host: 0.0.0.0
+  port: 5000

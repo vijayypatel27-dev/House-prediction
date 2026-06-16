@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+mlruns/
+artifacts/*.joblib
+artifacts/*.json
+artifacts/models/
+data/raw/*.csv
+data/processed/*.csv
+
+.dvc/cache/
+.env
+.DS_Store

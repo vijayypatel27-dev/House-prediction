@@ -1,0 +1,40 @@
+stages:
+  ingest:
+    cmd: python -m src.data_ingestion --config params.yaml
+    deps:
+      - src/data_ingestion.py
+    params:
+      - data.raw_path
+    outs:
+      - data/raw/house_prices.csv
+
+  preprocess:
+    cmd: python -m src.data_preprocessing --config params.yaml
+    deps:
+      - src/data_preprocessing.py
+      - data/raw/house_prices.csv
+    params:
+      - data
+      - features
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - artifacts/preprocessor.joblib
+
+  train:
+    cmd: python -m src.model_training --config params.yaml
+    deps:
+      - src/model_training.py
+      - src/model_evaluation.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - artifacts/preprocessor.joblib
+    params:
+      - training
+      - features.target
+    outs:
+      - artifacts/best_model.joblib
+      - artifacts/models
+    metrics:
+      - artifacts/metrics.json:
+          cache: false
